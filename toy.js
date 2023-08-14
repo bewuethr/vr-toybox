@@ -44,6 +44,7 @@ addEventListener("resize", () => setSize());
 function setSize() {
 	canvas.width = innerWidth;
 	canvas.height = innerHeight;
+	ctx.textAlign = "end";
 }
 
 let [canvas, ctx] = init();
