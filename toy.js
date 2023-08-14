@@ -44,6 +44,8 @@ addEventListener("resize", () => setSize());
 function setSize() {
 	canvas.width = innerWidth;
 	canvas.height = innerHeight;
+	x = Math.min(x, innerWidth);
+	y = Math.min(y, innerHeight);
 	ctx.textAlign = "end";
 }
 
