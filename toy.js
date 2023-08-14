@@ -68,7 +68,7 @@ function getSensor() {
 			sensor.start();
 			return sensor;
 		} else {
-			console.log("No permissions to use AbsoluteOientationSensor.");
+			console.log("No permissions to Ose AbsoluteOrientationSensor.");
 		}
 	});
 }
@@ -79,5 +79,6 @@ let [canvas, ctx] = init();
 const r = 5;
 let x = innerWidth / 2, y = innerHeight / 2;
 // let sensor = getSensor();
+//
 
 requestAnimationFrame(frame);
