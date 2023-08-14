@@ -39,8 +39,6 @@ addEventListener("keydown", event => {
 	}
 });
 
-addEventListener("resize", () => setSize());
-
 function setSize() {
 	canvas.width = innerWidth;
 	canvas.height = innerHeight;
@@ -49,9 +47,23 @@ function setSize() {
 	ctx.textAlign = "end";
 }
 
+addEventListener("resize", () => setSize());
+
+function requestFullscreen() {
+	if (!document.fullscreenElement) {
+		document.documentElement.requestFullscreen().catch((err) => {
+			console.warn(`Enabling fullscreen mode: ${err.message} (${err.name})`)
+		});
+	}
+}
+
+addEventListener("pointerdown", () => requestFullscreen());
+
 let [canvas, ctx] = init();
 const r = 5;
 let x = innerWidth / 2, y = innerHeight / 2;
+alert("Click/tap anywhere to switch to fullscreen");
+
 drawBall(ctx, x, y, r);
 
 requestAnimationFrame(frame);
