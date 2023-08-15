@@ -66,11 +66,6 @@ function paintScene() {
 	});
 }
 
-function frame() {
-	paintScene();
-	requestAnimationFrame(frame);
-}
-
 function updateScene(event) {
 	let step = 2 * r;
 	let x = scene.point.x;
