@@ -3,21 +3,25 @@ function init() {
 	canvas.width = innerWidth;
 	canvas.height = innerHeight;
 	let ctx = canvas.getContext("2d");
-	ctx.textAlign = "end";
 	return [canvas, ctx];
 }
 
-function drawBall(ctx, x, y, r) {
+function updateScene(ctx, x, y, r, sensor) {
 	ctx.clearRect(0, 0, innerWidth, innerHeight);
 	ctx.beginPath();
 	ctx.arc(x, y, r, 0, 2 * Math.PI);
 	ctx.fill();
+	ctx.textAlign = "end";
 	ctx.fillText(`x: ${x}`, innerWidth - 10, 20);
 	ctx.fillText(`y: ${y}`, innerWidth - 10, 30);
+	ctx.textAlign = "left";
+	for (let i = 0; i < 4; ++i) {
+		ctx.fillText(`[${i}]: ${sensor.quaternion[$i]}`, 10, innerHeight - 50 + i * 10);
+	}
 }
 
 function frame(time) {
-	drawBall(ctx, x, y, r);
+	updateScene(ctx, x, y, r, sensor);
 	requestAnimationFrame(frame);
 }
 
