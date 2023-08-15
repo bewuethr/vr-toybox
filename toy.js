@@ -78,7 +78,6 @@ addEventListener("pointerdown", () => requestFullscreen());
 let [canvas, ctx] = init();
 const r = 5;
 let x = innerWidth / 2, y = innerHeight / 2;
-// let sensor = getSensor();
-//
+let sensor = getSensor();
 
 requestAnimationFrame(frame);
