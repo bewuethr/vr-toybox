@@ -57,6 +57,8 @@ function requestFullscreen() {
 	}
 }
 
+addEventListener("pointerdown", () => requestFullscreen());
+
 function getSensor() {
 	const sensor = new AbsoluteOrientationSensor();
 	Promise.all([
@@ -64,7 +66,7 @@ function getSensor() {
 		navigator.permissions.query({ name: "magnetometer" }),
 		// navigator.pemissions.query({ name: "gyroscope" }),
 	]).then((results) => {
-		if (results.every((results) => results.state === "granted")) {
+		if (results.every((result) => result.state === "granted")) {
 			sensor.start();
 			return sensor;
 		} else {
@@ -72,8 +74,6 @@ function getSensor() {
 		}
 	});
 }
-
-addEventListener("pointerdown", () => requestFullscreen());
 
 let [canvas, ctx] = init();
 const r = 5;
