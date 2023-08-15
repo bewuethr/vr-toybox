@@ -68,7 +68,7 @@ function getSensor() {
 	Promise.all([
 		navigator.permissions.query({ name: "accelerometer" }),
 		navigator.permissions.query({ name: "magnetometer" }),
-		navigator.pemissions.query({ name: "gyroscope" })
+		navigator.permissions.query({ name: "gyroscope" })
 	]).then((results) => {
 		if (results.every((result) => result.state === "granted")) {
 			sensor.start();
