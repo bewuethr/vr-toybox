@@ -62,13 +62,13 @@ function getSensor() {
 	Promise.all([
 		navigator.permissions.query({ name: "accelerometer" }),
 		navigator.permissions.query({ name: "magnetometer" }),
-		navigator.pemissions.query({ name: "gyroscope" }),
+		// navigator.pemissions.query({ name: "gyroscope" }),
 	]).then((results) => {
 		if (results.every((results) => results.state === "granted")) {
 			sensor.start();
 			return sensor;
 		} else {
-			console.log("No permissions to Ose AbsoluteOrientationSensor.");
+			console.log("No permissions to use AbsoluteOrientationSensor");
 		}
 	});
 }
