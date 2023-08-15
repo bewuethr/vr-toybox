@@ -15,9 +15,9 @@ function updateScene(ctx, x, y, r, sensor) {
 	ctx.fillText(`x: ${x}`, innerWidth - 10, 20);
 	ctx.fillText(`y: ${y}`, innerWidth - 10, 30);
 	ctx.textAlign = "left";
-	for (let i = 0; i < 4; ++i) {
-		ctx.fillText(`[${i}]: ${sensor.quaternion[i]}`, 10, innerHeight - 50 + i * 10);
-	}
+	sensor.quaternion.forEach((el, idx) => {
+		ctx.fillText(`[${idx}]: ${el}`, 10, innerHeight - 50 + idx * 10);
+	})
 }
 
 function frame(time) {
