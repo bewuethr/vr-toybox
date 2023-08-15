@@ -68,11 +68,12 @@ function getSensor() {
 	]).then((results) => {
 		if (results.every((result) => result.state === "granted")) {
 			sensor.start();
-			return sensor;
 		} else {
 			console.log("No permissions to use AbsoluteOrientationSensor");
 		}
 	});
+
+	return sensor;
 }
 
 let [canvas, ctx] = init();
