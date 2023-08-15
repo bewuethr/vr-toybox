@@ -1,0 +1,21 @@
+{
+  "name": "vr-toybox",
+  "version": "1.0.0",
+  "description": "Eventually, hopefully, an interactive, browser-based, VR, physically-based \"toy\" environment.",
+  "main": "toy.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.47.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.28.0",
+    "eslint-plugin-n": "^16.0.1",
+    "eslint-plugin-promise": "^6.1.1"
+  }
+}
