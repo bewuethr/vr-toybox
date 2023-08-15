@@ -58,11 +58,12 @@ function paintScene() {
 	ctx.arc(scene.point.x, scene.point.y, r, 0, 2 * Math.PI);
 	ctx.fill();
 	ctx.textAlign = "end";
-	ctx.fillText(`x: ${scene.point.x}`, innerWidth - 10, 20);
-	ctx.fillText(`y: ${scene.point.y}`, innerWidth - 10, 30);
+	ctx.font = "30px sans-serif";
+	ctx.fillText(`x: ${scene.point.x}`, innerWidth - 10, 25);
+	ctx.fillText(`y: ${scene.point.y}`, innerWidth - 10, 60);
 	ctx.textAlign = "left";
 	scene.orientation.forEach((el, idx) => {
-		ctx.fillText(`[${idx}]: ${el}`, 10, innerHeight - 50 + idx * 10);
+		ctx.fillText(`[${idx}]: ${el}`, 10, innerHeight - 140 + idx * 35);
 	});
 }
 
@@ -98,8 +99,13 @@ function setSize() {
 
 addEventListener("resize", () => setSize());
 
+function frame() {
+	paintScene();
+	requestAnimationFrame(frame);
+}
+
 let scene = new Scene();
 let ctx = init();
-const r = 5;
+const r = 10;
 
 requestAnimationFrame(frame);
