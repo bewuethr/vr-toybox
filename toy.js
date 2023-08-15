@@ -38,6 +38,7 @@ function init() {
 		navigator.permissions.query({ name: "gyroscope" })
 	]).then((results) => {
 		if (results.every((result) => result.state === "granted")) {
+			sensor.onreading = updateOrientation(sensor);
 			sensor.start();
 		} else {
 			console.log("No permissions to use AbsoluteOrientationSensor");
@@ -49,6 +50,10 @@ function init() {
 	canvas.height = innerHeight;
 
 	return canvas.getContext("2d");
+}
+
+function updateOrientation(sensor) {
+	scene.orientation = sensor.quaternion;
 }
 
 function paintScene() {
