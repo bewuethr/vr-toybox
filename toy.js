@@ -16,7 +16,7 @@ function updateScene(ctx, x, y, r, sensor) {
 	ctx.fillText(`y: ${y}`, innerWidth - 10, 30);
 	ctx.textAlign = "left";
 	for (let i = 0; i < 4; ++i) {
-		ctx.fillText(`[${i}]: ${sensor.quaternion[$i]}`, 10, innerHeight - 50 + i * 10);
+		ctx.fillText(`[${i}]: ${sensor.quaternion[i]}`, 10, innerHeight - 50 + i * 10);
 	}
 }
 
@@ -48,7 +48,6 @@ function setSize() {
 	canvas.height = innerHeight;
 	x = Math.min(x, innerWidth);
 	y = Math.min(y, innerHeight);
-	ctx.textAlign = "end";
 }
 
 addEventListener("resize", () => setSize());
