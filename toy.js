@@ -66,9 +66,10 @@ function paintScene() {
 	ctx.font = fontSize + "px sans-serif";
 	ctx.fillText(`x: ${scene.point.x}`, innerWidth - 10, fontSize - 5);
 	ctx.fillText(`y: ${scene.point.y}`, innerWidth - 10, 2 * fontSize);
-	ctx.textAlign = "left";
 	Object.entries(scene.orientation).forEach(([key, value], idx) => {
-		ctx.fillText(`${key}: ${value}`, 10, innerHeight - (4 * fontSize) + idx * (fontSize + 5));
+		let yPos = innerHeight - (4 * fontSize) + idx * (fontSize + 5);
+		ctx.fillText(`${key}:`, 3.6 * fontSize, yPos);
+		ctx.fillText(Math.round(value), 5.4 * fontSize, yPos);
 	});
 }
 
