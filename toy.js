@@ -57,17 +57,18 @@ function init() {
 }
 
 function paintScene() {
+	const fontSize = 25;
 	ctx.clearRect(0, 0, innerWidth, innerHeight);
 	ctx.beginPath();
 	ctx.arc(scene.point.x, scene.point.y, r, 0, 2 * Math.PI);
 	ctx.fill();
 	ctx.textAlign = "end";
-	ctx.font = "30px sans-serif";
-	ctx.fillText(`x: ${scene.point.x}`, innerWidth - 10, 25);
-	ctx.fillText(`y: ${scene.point.y}`, innerWidth - 10, 60);
+	ctx.font = fontSize + "px sans-serif";
+	ctx.fillText(`x: ${scene.point.x}`, innerWidth - 10, fontSize - 5);
+	ctx.fillText(`y: ${scene.point.y}`, innerWidth - 10, 2 * fontSize);
 	ctx.textAlign = "left";
 	scene.orientation.forEach((el, idx) => {
-		ctx.fillText(`[${idx}]: ${el}`, 10, innerHeight - 140 + idx * 35);
+		ctx.fillText(`[${idx}]: ${el}`, 10, innerHeight - (4 * fontSize) + idx * (fontSize + 5));
 	});
 }
 
