@@ -45,6 +45,10 @@ function init() {
 		}
 	});
 
+	addEventListener("keydown", updateScene);
+	addEventListener("resize", () => setSize());
+	addEventListener("mousedown", () => document.documentElement.requestFullscreen());
+
 	let canvas = document.querySelector("canvas");
 	canvas.width = innerWidth;
 	canvas.height = innerHeight;
@@ -87,8 +91,6 @@ function updateScene(event) {
 	}
 }
 
-addEventListener("keydown", updateScene);
-
 function setSize() {
 	let canvas = document.querySelector("canvas");
 	canvas.width = innerWidth;
@@ -97,7 +99,6 @@ function setSize() {
 		Math.min(scene.point.y, innerHeight));
 }
 
-addEventListener("resize", () => setSize());
 
 function frame() {
 	paintScene();
