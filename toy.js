@@ -48,6 +48,11 @@ function init() {
 	addEventListener("keydown", updateScene);
 	addEventListener("resize", () => setSize());
 	addEventListener("mousedown", () => document.documentElement.requestFullscreen());
+	addEventListener("fullscreenchange", () => {
+		if (document.fullscreenElement != null) {
+			screen.orientation.lock("natural");
+		}
+	});
 
 	let canvas = document.querySelector("canvas");
 	canvas.width = innerWidth;
