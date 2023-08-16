@@ -39,7 +39,7 @@ function init() {
 	addEventListener("resize", setSize);
 	addEventListener("mousedown", () => document.documentElement.requestFullscreen());
 	addEventListener("fullscreenchange", lockOrientation);
-	addEventListener("deviceorientationabsolute", handleOrientation);
+	addEventListener("deviceorientation", handleOrientation);
 
 	let canvas = document.querySelector("canvas");
 	canvas.width = innerWidth;
