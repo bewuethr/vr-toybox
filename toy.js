@@ -46,13 +46,9 @@ function init() {
 	});
 
 	addEventListener("keydown", updateScene);
-	addEventListener("resize", () => setSize());
+	addEventListener("resize", setSize);
 	addEventListener("mousedown", () => document.documentElement.requestFullscreen());
-	addEventListener("fullscreenchange", () => {
-		if (document.fullscreenElement != null) {
-			screen.orientation.lock("natural");
-		}
-	});
+	addEventListener("fullscreenchange", lockOrientation);
 
 	let canvas = document.querySelector("canvas");
 	canvas.width = innerWidth;
@@ -105,6 +101,11 @@ function setSize() {
 		Math.min(scene.point.y, innerHeight));
 }
 
+function lockOrientation() {
+	if (document.fullscreenElement != null) {
+		screen.orientation.lock("natural");
+	}
+}
 
 function frame() {
 	paintScene();
