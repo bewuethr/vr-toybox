@@ -1,7 +1,24 @@
 class Point {
+	// Position
+	x;
+	y;
+
+	// Velocity
+	vx = 0;
+	vy = 0;
+
+	// Mass
+	m = 1;
+
 	constructor(x, y) {
 		this.x = x;
 		this.y = y;
+	}
+
+	applyForce(Fx, Fy, dt) {
+		let ax = Fx / this.m, ay = Fy / this.m;
+		this.vx += (dt * ax);
+		this.vy += (dt * ay);
 	}
 
 	set(x, y) {
