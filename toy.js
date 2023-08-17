@@ -123,9 +123,12 @@ function setSize() {
 }
 
 function lockOrientation() {
-	if (document.fullscreenElement != null) {
-		screen.orientation.lock("natural");
+	if (document.fullscreenElement == null) {
+		return;
 	}
+
+	screen.orientation.lock("natural")
+		.catch((err) => console.warn(`locking orientation: ${err}`));
 }
 
 function frame() {
