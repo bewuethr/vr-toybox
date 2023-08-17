@@ -99,24 +99,31 @@ function toRadians(degrees) {
 	return (degrees / 180) * Math.PI;
 }
 
-function paintScene() {
+function paintScene(dt) {
 	const fontSize = 25;
 	ctx.clearRect(0, 0, innerWidth, innerHeight);
+
+	// Calculate and apply force vector
+	const gravity = 9.81;
+	let Fx = gravity * Math.sin(toRadians(scene.orientation.gamma));
+	let Fy = gravity * Math.sin(toRadians(scene.orientation.beta));
+	scene.point.applyForce(Fx, Fy, dt);
+	scene.point.move(scene.point.vx * dt, scene.point.vy * dt);
+
+	// Paint force vector
+	const lFactor = 20;
+	let x = scene.point.x, y = scene.point.y;
+	ctx.beginPath();
+	ctx.lineWidth = 5;
+	ctx.moveTo(x, y);
+	ctx.lineTo(x + lFactor * Fx, y + lFactor * Fy);
+	ctx.stroke();
 
 	// Dot
 	ctx.beginPath();
 	ctx.arc(scene.point.x, scene.point.y, r, 0, 2 * Math.PI);
 	ctx.fill();
 
-	// Force vector
-	const gravity = 200;
-	let x = scene.point.x, y = scene.point.y;
-	ctx.beginPath();
-	ctx.lineWidth = 5;
-	ctx.moveTo(x, y);
-	ctx.lineTo(x + gravity * Math.sin(toRadians(scene.orientation.gamma)),
-		y + gravity * Math.sin(toRadians(scene.orientation.beta)));
-	ctx.stroke();
 
 	// Coordinates in top right corner
 	ctx.textAlign = "end";
@@ -168,14 +175,21 @@ function lockOrientation() {
 		.catch((err) => console.warn(`locking orientation: ${err}`));
 }
 
-function frame() {
-	paintScene();
+function frame(time) {
+	if (start === undefined) {
+		start = time;
+	}
+	let dt = time - start;
+
+	paintScene(dt);
+	tPrev = time;
 	requestAnimationFrame(frame);
 }
 
 let scene = new Scene();
 let ctx = init();
 let wLock = null; // eslint-disable-line no-unused-vars
+let start, tPrev;
 const r = 10;
 
 requestAnimationFrame(frame);
