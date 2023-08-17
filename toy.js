@@ -78,16 +78,35 @@ function handleOrientation(event) {
 	};
 }
 
+function toRadians(degrees) {
+	return (degrees / 180) * Math.PI;
+}
+
 function paintScene() {
 	const fontSize = 25;
 	ctx.clearRect(0, 0, innerWidth, innerHeight);
+
+	// Dot
 	ctx.beginPath();
 	ctx.arc(scene.point.x, scene.point.y, r, 0, 2 * Math.PI);
 	ctx.fill();
+
+	// Force vector
+	const gravity = 200;
+	let x = scene.point.x, y = scene.point.y;
+	ctx.beginPath();
+	ctx.lineWidth = 5;
+	ctx.moveTo(x, y);
+	ctx.lineTo(x + gravity * Math.sin(toRadians(scene.orientation.gamma)), y);
+	ctx.stroke();
+
+	// Coordinates in top right corner
 	ctx.textAlign = "end";
 	ctx.font = fontSize + "px sans-serif";
 	ctx.fillText(`x: ${scene.point.x}`, innerWidth - 10, fontSize - 5);
 	ctx.fillText(`y: ${scene.point.y}`, innerWidth - 10, 2 * fontSize);
+
+	// Device position angles in bottom left corner
 	Object.entries(scene.orientation).forEach(([key, value], idx) => {
 		let yPos = innerHeight - (4 * fontSize) + idx * (fontSize + 5);
 		ctx.fillText(`${key}:`, 3.6 * fontSize, yPos);
