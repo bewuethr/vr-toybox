@@ -37,8 +37,11 @@ class Scene {
 function init() {
 	addEventListener("keydown", updateScene);
 	addEventListener("resize", setSize);
-	addEventListener("mousedown", () => document.documentElement.requestFullscreen());
+	addEventListener("mousedown", fullscreen);
 	addEventListener("fullscreenchange", lockOrientation);
+	if ("wakeLock" in navigator) {
+		addEventListener("fullscreenchange", wakeLock);
+	}
 	addEventListener("deviceorientation", handleOrientation);
 
 	let canvas = document.querySelector("canvas");
@@ -46,6 +49,25 @@ function init() {
 	canvas.height = innerHeight;
 
 	return canvas.getContext("2d");
+}
+
+// Acquire the wake lock when going fullscreen, release it when returning from
+// fullscreen
+async function wakeLock() {
+	if (!document.fullscreenElement) {
+		wLock = null;
+		return;
+	}
+
+	try {
+		wLock = await navigator.wakeLock.request("screen");
+	} catch (err) {
+		console.warn(`Acquiring wake lock: ${err}`);
+	}
+}
+
+function fullscreen() {
+	document.documentElement.requestFullscreen();
 }
 
 function handleOrientation(event) {
@@ -113,6 +135,7 @@ function frame() {
 
 let scene = new Scene();
 let ctx = init();
+let wLock = null;
 const r = 10;
 
 requestAnimationFrame(frame);
