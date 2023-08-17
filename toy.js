@@ -62,7 +62,7 @@ async function wakeLock() {
 	try {
 		wLock = await navigator.wakeLock.request("screen");
 	} catch (err) {
-		console.warn(`Acquiring wake lock: ${err}`);
+		console.warn(`acquiring wake lock: ${err}`);
 	}
 }
 
