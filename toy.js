@@ -97,7 +97,8 @@ function paintScene() {
 	ctx.beginPath();
 	ctx.lineWidth = 5;
 	ctx.moveTo(x, y);
-	ctx.lineTo(x + gravity * Math.sin(toRadians(scene.orientation.gamma)), y);
+	ctx.lineTo(x + gravity * Math.sin(toRadians(scene.orientation.gamma)),
+		y + gravity * Math.sin(toRadians(scene.orientation.beta)));
 	ctx.stroke();
 
 	// Coordinates in top right corner
