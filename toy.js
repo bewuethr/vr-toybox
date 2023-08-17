@@ -138,7 +138,7 @@ function frame() {
 
 let scene = new Scene();
 let ctx = init();
-let wLock = null;
+let wLock = null; // eslint-disable-line no-unused-vars
 const r = 10;
 
 requestAnimationFrame(frame);
