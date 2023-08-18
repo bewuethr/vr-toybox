@@ -120,8 +120,7 @@ function paintScene(dt) {
 		yNew = innerHeight - r;
 		scene.point.vy *= -dampingFactor;
 	}
-	scene.point.x = xNew;
-	scene.point.y = yNew;
+	scene.point.set(xNew, yNew);
 
 	// Paint force vectors
 	const lFactor = 20;
