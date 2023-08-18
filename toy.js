@@ -26,19 +26,6 @@ class Point {
 		this.x = x;
 		this.y = y;
 	}
-
-	move(dx, dy) {
-		this.x += dx;
-		this.y += dy;
-	}
-
-	moveX(dx) {
-		this.x += dx;
-	}
-
-	moveY(dy) {
-		this.y += dy;
-	}
 }
 
 class Scene {
