@@ -143,14 +143,14 @@ function paintScene(dt) {
 	let x = scene.point.x;
 	let y = scene.point.y;
 	ctx.beginPath();
-	ctx.strokeStyle.color = "blue";
+	ctx.strokeStyle = "blue";
 	ctx.lineWidth = 5;
 	ctx.moveTo(x, y);
 	ctx.lineTo(x + lFactor * Fx, y + lFactor * Fy);
 	ctx.stroke();
 
 	// Dot
-	ctx.strokeStyle.color = "black";
+	ctx.strokeStyle = "black";
 	ctx.beginPath();
 	ctx.arc(scene.point.x, scene.point.y, r, 0, 2 * Math.PI);
 	ctx.fill();
