@@ -8,7 +8,7 @@ class Point {
 	vy = 0;
 
 	// Mass
-	m = 100;
+	m = 1000;
 
 	constructor(x, y) {
 		this.x = x;
@@ -92,7 +92,7 @@ function toRadians(degrees) {
 
 function paintScene(dt) {
 	const fontSize = 25;
-	const dampingFactor = 0.8;
+	const dampingFactor = 0.5;
 	ctx.clearRect(0, 0, innerWidth, innerHeight);
 
 	// Calculate and apply force vector for unit mass
