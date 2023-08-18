@@ -7,6 +7,10 @@ class Point {
 	vx = 0;
 	vy = 0;
 
+	// Acceleration
+	ax = 0;
+	ay = 0;
+
 	// Mass
 	m = 1000;
 
@@ -17,9 +21,10 @@ class Point {
 
 	// Apply net force on point, but don't move it yet
 	updateV(Fx, Fy, dt) {
-		let ax = Fx / this.m, ay = Fy / this.m;
-		this.vx += (dt * ax);
-		this.vy += (dt * ay);
+		this.ax =  Fx / this.m;
+		this.ay = Fy / this.m;
+		this.vx += (dt * this.ax);
+		this.vy += (dt * this.ay);
 	}
 
 	set(x, y) {
@@ -90,13 +95,11 @@ function toRadians(degrees) {
 	return (degrees / 180) * Math.PI;
 }
 
-function paintScene(dt) {
-	const fontSize = 25;
+function updateModel(dt) {
 	const dampingFactor = 0.5;
-	ctx.clearRect(0, 0, innerWidth, innerHeight);
+	const gravity = 9.81;
 
 	// Calculate and apply force vector for unit mass
-	const gravity = 9.81;
 	let Fx = gravity * Math.sin(toRadians(scene.orientation.gamma));
 	let Fy = gravity * Math.sin(toRadians(scene.orientation.beta));
 	scene.point.updateV(Fx, Fy, dt);
@@ -120,25 +123,32 @@ function paintScene(dt) {
 		yNew = innerHeight - r;
 		scene.point.vy *= -dampingFactor;
 	}
+
 	scene.point.set(xNew, yNew);
+}
 
-	// Paint force vectors
+function paintScene(dt) {
+	updateModel(dt);
+	const fontSize = 25;
+	ctx.clearRect(0, 0, innerWidth, innerHeight);
+
+	// Paint acceleration vector
 	const lFactor = 20;
-
-	// Plane-parallel component of gravitational force
 	let x = scene.point.x;
 	let y = scene.point.y;
+	let ax = scene.point.ax;
+	let ay = scene.point.ay;
 	ctx.beginPath();
 	ctx.strokeStyle = "blue";
 	ctx.lineWidth = 5;
 	ctx.moveTo(x, y);
-	ctx.lineTo(x + lFactor * Fx, y + lFactor * Fy);
+	ctx.lineTo(x + lFactor * ax, y + lFactor * ay);
 	ctx.stroke();
 
 	// Dot
 	ctx.strokeStyle = "black";
 	ctx.beginPath();
-	ctx.arc(scene.point.x, scene.point.y, r, 0, 2 * Math.PI);
+	ctx.arc(x, y, r, 0, 2 * Math.PI);
 	ctx.fill();
 
 
@@ -147,6 +157,10 @@ function paintScene(dt) {
 	ctx.font = fontSize + "px sans-serif";
 	ctx.fillText(`x: ${Math.round(scene.point.x)}`, innerWidth - 10, fontSize - 5);
 	ctx.fillText(`y: ${Math.round(scene.point.y)}`, innerWidth - 10, 2 * fontSize);
+	ctx.fillText(`vx: ${Math.round(scene.point.vx * 100)/100}`, innerWidth - 10, 3 * fontSize);
+	ctx.fillText(`vy: ${Math.round(scene.point.vy * 100)/100}`, innerWidth - 10, 4 * fontSize);
+	ctx.fillText(`ax: ${Math.round(scene.point.ax* 100)/100}`, innerWidth - 10, 5 * fontSize);
+	ctx.fillText(`ay: ${Math.round(scene.point.ay* 100)/100}`, innerWidth - 10, 6 * fontSize);
 
 	// Device position angles in bottom left corner
 	Object.entries(scene.orientation).forEach(([key, value], idx) => {
