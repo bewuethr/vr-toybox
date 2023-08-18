@@ -12,7 +12,7 @@ class Point {
 	ay = 0;
 
 	// Mass
-	m = 1000;
+	m = 1;
 
 	constructor(x, y) {
 		this.x = x;
@@ -99,9 +99,9 @@ function updateModel(dt) {
 	const dampingFactor = 0.5;
 	const gravity = 9.81;
 
-	// Calculate and apply force vector for unit mass
-	let Fx = gravity * Math.sin(toRadians(scene.orientation.gamma));
-	let Fy = gravity * Math.sin(toRadians(scene.orientation.beta));
+	// Calculate and apply force vector
+	let Fx = scene.point.m * gravity * Math.sin(toRadians(scene.orientation.gamma));
+	let Fy = scene.point.m * gravity * Math.sin(toRadians(scene.orientation.beta));
 	scene.point.updateV(Fx, Fy, dt);
 
 	// Handle collision with boundary
