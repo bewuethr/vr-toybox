@@ -8,14 +8,15 @@ class Point {
 	vy = 0;
 
 	// Mass
-	m = 1;
+	m = 100;
 
 	constructor(x, y) {
 		this.x = x;
 		this.y = y;
 	}
 
-	applyForce(Fx, Fy, dt) {
+	// Apply net force on point, but don't move it yet
+	updateV(Fx, Fy, dt) {
 		let ax = Fx / this.m, ay = Fy / this.m;
 		this.vx += (dt * ax);
 		this.vy += (dt * ay);
@@ -41,6 +42,9 @@ class Point {
 }
 
 class Scene {
+	point;
+	orientation;
+
 	constructor() {
 		this.point = new Point(innerWidth / 2, innerHeight / 2);
 		this.orientation = {
@@ -101,25 +105,52 @@ function toRadians(degrees) {
 
 function paintScene(dt) {
 	const fontSize = 25;
+	const dampingFactor = 0.8;
 	ctx.clearRect(0, 0, innerWidth, innerHeight);
 
-	// Calculate and apply force vector
+	// Calculate and apply force vector for unit mass
 	const gravity = 9.81;
 	let Fx = gravity * Math.sin(toRadians(scene.orientation.gamma));
 	let Fy = gravity * Math.sin(toRadians(scene.orientation.beta));
-	scene.point.applyForce(Fx, Fy, dt);
-	scene.point.move(scene.point.vx * dt, scene.point.vy * dt);
+	scene.point.updateV(Fx, Fy, dt);
 
-	// Paint force vector
+	// Handle collision with boundary
+	let xNew = scene.point.x + scene.point.vx * dt;
+	let yNew = scene.point.y + scene.point.vy * dt;
+	if (xNew < r) {
+		xNew = r;
+		scene.point.vx *= -dampingFactor;
+	}
+	if (xNew > innerWidth - r) {
+		xNew = innerWidth - r;
+		scene.point.vx *= -dampingFactor;
+	}
+	if (yNew < r) {
+		yNew = r;
+		scene.point.vy *= -dampingFactor;
+	}
+	if (yNew > innerHeight - r) {
+		yNew = innerHeight - r;
+		scene.point.vy *= -dampingFactor;
+	}
+	scene.point.x = xNew;
+	scene.point.y = yNew;
+
+	// Paint force vectors
 	const lFactor = 20;
-	let x = scene.point.x, y = scene.point.y;
+
+	// Plane-parallel component of gravitational force
+	let x = scene.point.x;
+	let y = scene.point.y;
 	ctx.beginPath();
+	ctx.strokeStyle.color = "blue";
 	ctx.lineWidth = 5;
 	ctx.moveTo(x, y);
 	ctx.lineTo(x + lFactor * Fx, y + lFactor * Fy);
 	ctx.stroke();
 
 	// Dot
+	ctx.strokeStyle.color = "black";
 	ctx.beginPath();
 	ctx.arc(scene.point.x, scene.point.y, r, 0, 2 * Math.PI);
 	ctx.fill();
@@ -128,8 +159,8 @@ function paintScene(dt) {
 	// Coordinates in top right corner
 	ctx.textAlign = "end";
 	ctx.font = fontSize + "px sans-serif";
-	ctx.fillText(`x: ${scene.point.x}`, innerWidth - 10, fontSize - 5);
-	ctx.fillText(`y: ${scene.point.y}`, innerWidth - 10, 2 * fontSize);
+	ctx.fillText(`x: ${Math.round(scene.point.x)}`, innerWidth - 10, fontSize - 5);
+	ctx.fillText(`y: ${Math.round(scene.point.y)}`, innerWidth - 10, 2 * fontSize);
 
 	// Device position angles in bottom left corner
 	Object.entries(scene.orientation).forEach(([key, value], idx) => {
@@ -179,7 +210,7 @@ function frame(time) {
 	if (start === undefined) {
 		start = time;
 	}
-	let dt = time - start;
+	let dt = (time - start) / 1000; // convert ms to s
 
 	paintScene(dt);
 	tPrev = time;
