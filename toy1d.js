@@ -12,16 +12,16 @@ class Point {
 	}
 
 	update(F, dt) {
-		let pNew = {
-			x: this.p.x + this.v.x * dt + this.a.x * dt**2 * 0.5
-		};
+		// let pNew = {
+		// 	x: this.p.x + this.v.x * dt + this.a.x * dt**2 * 0.5
+		// };
 		let aNew = this.#applyForces(F);
-		let vNew = {
-			x: (this.a.x + aNew.x) * (dt * 0.5)
-		};
+		// let vNew = {
+		// 	x: (this.a.x + aNew.x) * (dt * 0.5)
+		// };
 
-		this.p = pNew;
-		this.v = vNew;
+		// this.p = pNew;
+		// this.v = vNew;
 		this.a = aNew;
 	}
 
@@ -127,7 +127,6 @@ function paintScene(dt) {
 	ctx.beginPath();
 	ctx.arc(x, y, r, 0, 2 * Math.PI);
 	ctx.fill();
-
 
 	// Coordinates in top right corner
 	ctx.textAlign = "end";
