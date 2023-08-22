@@ -38,7 +38,7 @@ class Point {
 		};
 
 		return {
-			x: F.x / this.m - ad.x
+			x: 100 * F.x / this.m - ad.x
 		};
 	}
 
@@ -112,7 +112,7 @@ function paintScene(dt) {
 	ctx.clearRect(0, 0, innerWidth, innerHeight);
 
 	// Paint acceleration vector
-	const lFactor = 20;
+	const lFactor = 0.2;
 	let {x} = scene.point.p;
 	let {x: ax} = scene.point.a;
 	ctx.beginPath();
