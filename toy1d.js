@@ -61,9 +61,9 @@ class Scene {
 	}
 }
 
-function init(scene) {
+function init(scene, config) {
 	addEventListener("resize", setSize.bind(scene));
-	addEventListener("mousedown", fullscreen);
+	addEventListener("mousedown", fullscreen.bind(config));
 	addEventListener("fullscreenchange", lockOrientation);
 	if ("wakeLock" in navigator) {
 		addEventListener("fullscreenchange", wakeLock);
@@ -111,16 +111,19 @@ function paintScene(dt) {
 	const y = innerHeight / 2;
 	ctx.clearRect(0, 0, innerWidth, innerHeight);
 
-	// Paint acceleration vector
 	const lFactor = 0.2;
 	let {x} = scene.point.p;
-	let {x: ax} = scene.point.a;
-	ctx.beginPath();
-	ctx.strokeStyle = "blue";
-	ctx.lineWidth = 5;
-	ctx.moveTo(x, y);
-	ctx.lineTo(x + lFactor * ax, y);
-	ctx.stroke();
+
+	// Paint acceleration vector
+	if (config.debug) {
+		let {x: ax} = scene.point.a;
+		ctx.beginPath();
+		ctx.strokeStyle = "blue";
+		ctx.lineWidth = 5;
+		ctx.moveTo(x, y);
+		ctx.lineTo(x + lFactor * ax, y);
+		ctx.stroke();
+	}
 
 	// Dot
 	ctx.strokeStyle = "black";
@@ -128,20 +131,22 @@ function paintScene(dt) {
 	ctx.arc(x, y, r, 0, 2 * Math.PI);
 	ctx.fill();
 
-	// Coordinates in top right corner
-	ctx.textAlign = "end";
-	ctx.font = fontSize + "px sans-serif";
-	ctx.fillText(`x: ${Math.round(scene.point.p.x)}`, innerWidth - 10, fontSize - 5);
-	ctx.fillText(`vx: ${Math.round(scene.point.v.x * 100)/100}`, innerWidth - 10, 2 * fontSize);
-	ctx.fillText(`ax: ${Math.round(scene.point.a.x * 100)/100}`, innerWidth - 10, 3 * fontSize);
-	ctx.fillText(`dt: ${Math.round(dt * 1000)} ms`, innerWidth - 10, 4 * fontSize);
+	if (config.debug) {
+		// Coordinates in top right corner
+		ctx.textAlign = "end";
+		ctx.font = fontSize + "px sans-serif";
+		ctx.fillText(`x: ${Math.round(scene.point.p.x)}`, innerWidth - 10, fontSize - 5);
+		ctx.fillText(`vx: ${Math.round(scene.point.v.x * 100)/100}`, innerWidth - 10, 2 * fontSize);
+		ctx.fillText(`ax: ${Math.round(scene.point.a.x * 100)/100}`, innerWidth - 10, 3 * fontSize);
+		ctx.fillText(`dt: ${Math.round(dt * 1000)} ms`, innerWidth - 10, 4 * fontSize);
 
-	// Device position angles in bottom left corner
-	Object.entries(scene.orientation).forEach(([key, value], idx) => {
-		let yPos = innerHeight - (4 * fontSize) + idx * (fontSize + 5);
-		ctx.fillText(`${key}:`, 3.6 * fontSize, yPos);
-		ctx.fillText(Math.round(value), 5.4 * fontSize, yPos);
-	});
+		// Device position angles in bottom left corner
+		Object.entries(scene.orientation).forEach(([key, value], idx) => {
+			let yPos = innerHeight - (4 * fontSize) + idx * (fontSize + 5);
+			ctx.fillText(`${key}:`, 3.6 * fontSize, yPos);
+			ctx.fillText(Math.round(value), 5.4 * fontSize, yPos);
+		});
+	}
 }
 
 function frame(time) {
@@ -155,8 +160,9 @@ function frame(time) {
 	requestAnimationFrame(frame);
 }
 
+let config = { debug: true };
 let scene = new Scene();
-let ctx = init(scene);
+let ctx = init(scene, config);
 let tPrev;
 const r = 10;
 

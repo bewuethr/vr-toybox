@@ -16,7 +16,13 @@ async function wakeLock() {
 }
 
 function fullscreen() {
-	document.documentElement.requestFullscreen();
+	if (document.fullscreenElement == null) {
+		document.documentElement.requestFullscreen();
+
+		return;
+	}
+
+	this.debug = !this.debug;
 }
 
 function handleOrientation(event) {
