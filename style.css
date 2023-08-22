@@ -11,6 +11,10 @@ nav ul {
 	padding: 0;
 }
 
+nav ul li {
+	line-height: 2;
+}
+
 canvas {
 	display: block;
 }
