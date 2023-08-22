@@ -131,16 +131,21 @@ function paintScene(dt) {
 
 
 	if (config.debug) {
-		// Coordinates in top right corner
+		// Coordinates, velocities, accelerations in top right corner
 		ctx.textAlign = "end";
 		ctx.font = fontSize + "px sans-serif";
-		ctx.fillText(`x: ${Math.round(scene.point.p.x)}`, innerWidth - 10, fontSize - 5);
-		ctx.fillText(`y: ${Math.round(scene.point.p.y)}`, innerWidth - 10, 2 * fontSize);
-		ctx.fillText(`vx: ${Math.round(scene.point.v.x * 100)/100}`, innerWidth - 10, 3 * fontSize);
-		ctx.fillText(`vy: ${Math.round(scene.point.v.y * 100)/100}`, innerWidth - 10, 4 * fontSize);
-		ctx.fillText(`ax: ${Math.round(scene.point.a.x* 100)/100}`, innerWidth - 10, 5 * fontSize);
-		ctx.fillText(`ay: ${Math.round(scene.point.a.y* 100)/100}`, innerWidth - 10, 6 * fontSize);
-		ctx.fillText(`dt: ${Math.round(dt * 1000)} ms`, innerWidth - 10, 7 * fontSize);
+
+		[
+			["x", scene.point.p.x],
+			["y", scene.point.p.y],
+			["vx", scene.point.v.x],
+			["vy", scene.point.v.y],
+			["ax", scene.point.a.x],
+			["ay", scene.point.a.y],
+			["dt [ms]", dt * 1000]
+		].forEach(([key, value], idx) => 
+			ctx.fillText(`${key}: ${Math.round(value)}`, innerWidth - 10, idx * fontSize)
+		);
 
 		// Device position angles in bottom left corner
 		Object.entries(scene.orientation).forEach(([key, value], idx) => {
