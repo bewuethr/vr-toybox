@@ -144,10 +144,10 @@ function paintScene(dt) {
 }
 
 function frame(time) {
-	if (start === undefined) {
-		start = time;
+	if (tPrev === undefined) {
+		tPrev = time;
 	}
-	let dt = (time - start) / 1000; // convert ms to s
+	let dt = (time - tPrev) / 1000; // convert ms to s
 
 	paintScene(dt);
 	tPrev = time;
@@ -156,7 +156,7 @@ function frame(time) {
 
 let scene = new Scene();
 let ctx = init(scene);
-let start, tPrev; // eslint-disable-line no-unused-vars
+let tPrev;
 const r = 10;
 
 requestAnimationFrame(frame);
