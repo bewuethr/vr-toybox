@@ -4,24 +4,24 @@ class Point {
 	p = {};     // position
 	v = {x: 0}; // velocity
 	a = {x: 0}; // acceleration
-	m = 1;      // mass
-	d = 0.1;    // drag
+	m = 0.01;   // mass
+	d = 0.0;    // drag
 
 	constructor(x) {
 		this.p = {x};
 	}
 
 	update(F, dt) {
-		// let pNew = {
-		// 	x: this.p.x + this.v.x * dt + this.a.x * dt**2 * 0.5
-		// };
+		let pNew = {
+			x: this.p.x + this.v.x * dt + this.a.x * dt**2 * 0.5
+		};
 		let aNew = this.#applyForces(F);
-		// let vNew = {
-		// 	x: (this.a.x + aNew.x) * (dt * 0.5)
-		// };
+		let vNew = {
+			x: this.v.x + (this.a.x + aNew.x) * (dt * 0.5)
+		};
 
-		// this.p = pNew;
-		// this.v = vNew;
+		this.p = pNew;
+		this.v = vNew;
 		this.a = aNew;
 	}
 
@@ -133,7 +133,8 @@ function paintScene(dt) {
 	ctx.font = fontSize + "px sans-serif";
 	ctx.fillText(`x: ${Math.round(scene.point.p.x)}`, innerWidth - 10, fontSize - 5);
 	ctx.fillText(`vx: ${Math.round(scene.point.v.x * 100)/100}`, innerWidth - 10, 2 * fontSize);
-	ctx.fillText(`ax: ${Math.round(scene.point.a.x* 100)/100}`, innerWidth - 10, 3 * fontSize);
+	ctx.fillText(`ax: ${Math.round(scene.point.a.x * 100)/100}`, innerWidth - 10, 3 * fontSize);
+	ctx.fillText(`dt: ${Math.round(dt * 1000)} ms`, innerWidth - 10, 4 * fontSize);
 
 	// Device position angles in bottom left corner
 	Object.entries(scene.orientation).forEach(([key, value], idx) => {
