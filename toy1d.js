@@ -144,7 +144,7 @@ function frame(time) {
 	requestAnimationFrame(frame);
 }
 
-let config = { debug: true };
+let config = { debug: false };
 let scene = new Scene();
 let ctx = init(scene, config);
 let tPrev;
