@@ -37,7 +37,7 @@ function setSize() {
 	let canvas = document.querySelector("canvas");
 	canvas.width = innerWidth;
 	canvas.height = innerHeight;
-	this.point.set(innerWidth / 2);
+	this.point.set(innerWidth / 2, innerHeight / 2);
 }
 
 function lockOrientation() {
