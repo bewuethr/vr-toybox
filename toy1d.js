@@ -5,7 +5,6 @@ class Point {
 	v = {x: 0}; // velocity
 	a = {x: 0}; // acceleration
 	m = 0.01;   // mass
-	d = 0.0;    // drag
 
 	constructor(x) {
 		this.p = {x};
@@ -15,7 +14,9 @@ class Point {
 		let pNew = {
 			x: this.p.x + this.v.x * dt + this.a.x * dt**2 * 0.5
 		};
-		let aNew = this.#applyForces(F);
+		let aNew = {
+			x: 100 * F.x / this.m  // scale by 100
+		};
 		let vNew = {
 			x: this.v.x + (this.a.x + aNew.x) * (dt * 0.5)
 		};
@@ -23,23 +24,6 @@ class Point {
 		this.p = pNew;
 		this.v = vNew;
 		this.a = aNew;
-	}
-
-	// Calculate new acceleration, where F is force from gravity
-	#applyForces(F) {
-		// Drag force
-		let Fd = {
-			x: 0.5 * this.d * this.v.x**2
-		};
-
-		// Drag acceleration
-		let ad = {
-			x: Fd.x / this.m
-		};
-
-		return {
-			x: 100 * F.x / this.m - ad.x
-		};
 	}
 
 	set(x) {
