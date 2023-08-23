@@ -129,7 +129,6 @@ function paintScene(dt) {
 	ctx.arc(x, y, r, 0, 2 * Math.PI);
 	ctx.fill();
 
-
 	if (config.debug) {
 		// Coordinates, velocities, accelerations in top right corner
 		ctx.textAlign = "end";
@@ -143,7 +142,7 @@ function paintScene(dt) {
 			["ax", scene.point.a.x],
 			["ay", scene.point.a.y],
 			["dt [ms]", dt * 1000]
-		].forEach(([key, value], idx) => 
+		].forEach(([key, value], idx) =>
 			ctx.fillText(`${key}: ${Math.round(value)}`, innerWidth - 10, idx * fontSize)
 		);
 
