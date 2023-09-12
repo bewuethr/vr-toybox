@@ -4,12 +4,17 @@ let wLock = null; // eslint-disable-line no-unused-vars
 // fullscreen
 async function wakeLock() {
 	if (!document.fullscreenElement) {
-		wLock = null;
+		wLock.release().then(() => {
+			wLock = null;
+			console.log("wake lock released");
+		});
+
 		return;
 	}
 
 	try {
 		wLock = await navigator.wakeLock.request("screen");
+		console.log("wake lock acquired");
 	} catch (err) {
 		console.warn(`acquiring wake lock: ${err}`);
 	}
