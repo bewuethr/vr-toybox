@@ -1,7 +1,6 @@
-import { resolve } from "path"
+import { resolve } from "path";
 
 export default {
-	base: "/vr-toybox/",
 	build: {
 		rollupOptions: {
 			input: {
