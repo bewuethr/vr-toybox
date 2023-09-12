@@ -36,12 +36,12 @@ function main() {
 	const renderer = new THREE.WebGLRenderer({antialias: true, canvas});
 	// const gui = new GUI();
 
+	const radius = 15;
+
 	const fov = 45;
 	const aspect = canvas.clientWidth / canvas.clientHeight;
 	const near = 0.1;
-	// const cameraZ = canvas.clientHeight/2 * Math.tan(Math.PI / 4);
-	const cameraZ = 1250;
-	const radius = 15;
+	const cameraZ = canvas.clientHeight/2 / Math.tan(fov/2 / 180 * Math.PI) + 3 * radius;
 	const far = cameraZ + radius + 5;
 	const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 	const cameraX = canvas.clientWidth / 2;
@@ -65,7 +65,7 @@ function main() {
 
 	{
 		const color = 0xffffff;
-		const intensity = 0.3;
+		const intensity = 0.05;
 		const light = new THREE.DirectionalLight(color, intensity);
 		light.position.set(camera.position.x, camera.position.y, radius + 100);
 		light.target.position.set(camera.position.x, camera.position.y, 0);
@@ -75,7 +75,6 @@ function main() {
 	const sphereMaterial = new THREE.MeshPhongMaterial({emissive: 0xeec61f});
 	const sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
 	sphereMesh.position.set(camera.position.x, camera.position.y, 0);
-	console.log(sphereMesh);
 	scene.add(sphereMesh);
 
 	{
@@ -96,7 +95,6 @@ function main() {
 		const planeMaterial = new THREE.MeshPhongMaterial({map: texture});
 		const mesh = new THREE.Mesh(planeGeometry, planeMaterial);
 		mesh.position.set(camera.position.x, camera.position.y, -radius);
-		console.log(mesh);
 		scene.add(mesh);
 	}
 
@@ -147,7 +145,6 @@ function main() {
 	}
 
 	function makeAxisGrid(node, label, units) {
-		console.log(gui);
 		const helper = new AxisGridHelper(node, units);
 		gui.add(helper, "visible").name(label);
 	}
