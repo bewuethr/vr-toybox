@@ -1,33 +1,8 @@
 import * as THREE from "three";
 import { GUI } from "three/addons/libs/lil-gui.module.min.js";
-
-class AxisGridHelper {
-	constructor(node, units = 10) {
-		const axes = new THREE.AxesHelper();
-		axes.material.depthTest = false;
-		axes.renderOrder = 2;
-		node.add(axes);
-
-		const grid = new THREE.GridHelper(units, units);
-		grid.material.depthTest = false;
-		grid.renderOrder = 1;
-		node.add(grid);
-
-		this.grid = grid;
-		this.axes = axes;
-		this.visible = false;
-	}
-
-	get visible() {
-		return this._visible;
-	}
-	
-	set visible(v) {
-		this._visible = v;
-		this.grid.visible = v;
-		this.axes.visible = v;
-	}
-}
+import { Scene as SceneModel } from "./scene.js";
+import { handleOrientation } from "./handlers.js";
+import { AxisGridHelper } from "./axisgridhelper.js";
 
 main();
 
@@ -66,10 +41,21 @@ function main() {
 	const bdMeshes = createBdMeshes(radius, canvas);
 	scene.add(...Object.values(bdMeshes));
 
+	const sceneModel = new SceneModel(sphereMesh.position.x, sphereMesh.position.y, radius);
+	let tPrev;
+	addEventListener("deviceorientation", handleOrientation.bind(sceneModel));
+
 	requestAnimationFrame(render);
 
 	function render(time) {
-		time *= 0.001;
+		if (tPrev === undefined) {
+			tPrev = time;
+		}
+
+		const dt = (time - tPrev) / 1000;
+		sceneModel.update(dt);
+		sphereMesh.position.setX(sceneModel.point.p.x);
+		sphereMesh.position.setY(sceneModel.point.p.y);
 
 		if (resizeRendererToDisplaySize(renderer)) {
 			const canvas = renderer.domElement;
@@ -105,7 +91,7 @@ function createDirectionalLight(position, target) {
 	light.position.copy(position);
 	light.target.position.copy(target);
 
-	return light
+	return light;
 }
 
 function createCamera(canvas, radius, fov = 45)  {
@@ -187,17 +173,4 @@ function resizeRendererToDisplaySize(renderer) {
 	if (needResize) renderer.setSize(width, height, false);
 
 	return needResize;
-}
-
-function createMaterial() {
-	const material = new THREE.MeshPhongMaterial({
-		side: THREE.DoubleSide,
-	});
-
-	const hue = Math.random();
-	const saturation = 1;
-	const luminance = 0.5;
-	material.color.setHSL(hue, saturation, luminance);
-
-	return material;
 }
