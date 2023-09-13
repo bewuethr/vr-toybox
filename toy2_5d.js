@@ -56,6 +56,7 @@ function main() {
 		sceneModel.update(dt);
 		sphereMesh.position.setX(sceneModel.point.p.x);
 		sphereMesh.position.setY(sceneModel.point.p.y);
+		tPrev = time;
 
 		if (resizeRendererToDisplaySize(renderer)) {
 			const canvas = renderer.domElement;
