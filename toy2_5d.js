@@ -60,17 +60,7 @@ function main() {
 		sphereMesh.position.setY(sceneModel.point.p.y);
 		tPrev = time;
 
-		const debugText = [
-			["x", Math.round(sceneModel.point.p.x)],
-			["y", Math.round(sceneModel.point.p.y)],
-			["vx", Math.round(sceneModel.point.v.x)],
-			["vy", Math.round(sceneModel.point.v.y)],
-			["ax", Math.round(sceneModel.point.a.x)],
-			["ay", Math.round(sceneModel.point.a.y)],
-			["dt [ms]", Math.round(dt * 1000)]
-		].map(([key, value]) => `  ${key}: ${value}`).join("\n");
-
-		debugDiv.innerHTML = `<pre>${debugText}</pre>`;
+		debugDiv.innerHTML = `<pre>${createDebugString(sceneModel, dt)}</pre>`;
 
 		if (resizeRendererToDisplaySize(renderer)) {
 			const canvas = renderer.domElement;
@@ -87,6 +77,18 @@ function main() {
 		const helper = new AxisGridHelper(node, units);
 		gui.add(helper, "visible").name(label);
 	}
+}
+
+function createDebugString(sceneModel, dt) {
+	return [
+		["x", Math.round(sceneModel.point.p.x)],
+		["y", Math.round(sceneModel.point.p.y)],
+		["vx", Math.round(sceneModel.point.v.x)],
+		["vy", Math.round(sceneModel.point.v.y)],
+		["ax", Math.round(sceneModel.point.a.x)],
+		["ay", Math.round(sceneModel.point.a.y)],
+		["dt [ms]", Math.round(dt * 1000)],
+	].map(([key, value]) => `  ${key}: ${value}`).join("\n");
 }
 
 function createPointLight(x, y, z) {
