@@ -20,7 +20,7 @@ class Scene {
 		// Calculate and apply force vector
 		const F = {
 			x: this.point.m * gravity * Math.sin(toRadians(this.orientation.gamma)),
-			y: this.point.m * gravity * Math.sin(toRadians(this.orientation.beta))
+			y: -this.point.m * gravity * Math.sin(toRadians(this.orientation.beta))
 		};
 		this.point.update(F, dt);
 
