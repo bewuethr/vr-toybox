@@ -66,6 +66,8 @@ function main() {
 			const canvas = renderer.domElement;
 			camera.aspect = canvas.clientWidth / canvas.clientHeight;
 			camera.updateProjectionMatrix();
+
+			updatePlaneMesh(planeMesh, canvas.clientWidth, canvas.clientHeight);
 		}
 
 		renderer.render(scene, camera);
@@ -153,6 +155,13 @@ function createPlaneMesh(params) {
 	mesh.position.set(params.x, params.y, -params.radius);
 
 	return mesh;
+}
+
+function updatePlaneMesh(mesh, width, height) {
+	mesh.geometry = new THREE.PlaneGeometry(width, height);
+	const texture = mesh.material.map;
+	texture.repeat.set(width / 20, height / 20);
+	mesh.material.map = texture;
 }
 
 function createBdMeshes(radius, canvas) {
