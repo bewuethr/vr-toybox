@@ -47,6 +47,8 @@ function main() {
 
 	requestAnimationFrame(render);
 
+	const debugDiv = document.querySelector("#debug");
+
 	function render(time) {
 		if (tPrev === undefined) {
 			tPrev = time;
@@ -57,6 +59,18 @@ function main() {
 		sphereMesh.position.setX(sceneModel.point.p.x);
 		sphereMesh.position.setY(sceneModel.point.p.y);
 		tPrev = time;
+
+		const debugText = [
+			["x", Math.round(sceneModel.point.p.x)],
+			["y", Math.round(sceneModel.point.p.y)],
+			["vx", Math.round(sceneModel.point.v.x)],
+			["vy", Math.round(sceneModel.point.v.y)],
+			["ax", Math.round(sceneModel.point.a.x)],
+			["ay", Math.round(sceneModel.point.a.y)],
+			["dt [ms]", Math.round(dt * 1000)]
+		].map(([key, value]) => `  ${key}: ${value}`).join("\n");
+
+		debugDiv.innerHTML = `<pre>${debugText}</pre>`;
 
 		if (resizeRendererToDisplaySize(renderer)) {
 			const canvas = renderer.domElement;

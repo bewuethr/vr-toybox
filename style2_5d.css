@@ -8,3 +8,12 @@ canvas {
 	height: 100%;
 	width: 100%;
 }
+
+#debug {
+	background: rgba(0, 0, 0, 0.5);
+	color: white;
+	display: block;
+	position: absolute;
+	top: 10px;
+	z-index: 100;
+}
