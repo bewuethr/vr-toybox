@@ -29,18 +29,22 @@ class Scene {
 		if (x < 3 * this.point.r) {
 			x = 3 * this.point.r;
 			this.point.v.x *= -dampingFactor;
+			this.point.v.y *= dampingFactor;
 		}
 		if (x > innerWidth - 3 * this.point.r) {
 			x = innerWidth - 3 * this.point.r;
 			this.point.v.x *= -dampingFactor;
+			this.point.v.y *= dampingFactor;
 		}
 		if (y < 3 * this.point.r) {
 			y = 3 * this.point.r;
 			this.point.v.y *= -dampingFactor;
+			this.point.v.x *= dampingFactor;
 		}
 		if (y > innerHeight - 3 * this.point.r) {
 			y = innerHeight - 3 * this.point.r;
 			this.point.v.y *= -dampingFactor;
+			this.point.v.x *= dampingFactor;
 		}
 
 		this.point.set(x, y);
