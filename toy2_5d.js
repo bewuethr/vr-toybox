@@ -66,8 +66,17 @@ function main() {
 			const canvas = renderer.domElement;
 			camera.aspect = canvas.clientWidth / canvas.clientHeight;
 			camera.updateProjectionMatrix();
+			const cameraX = canvas.clientWidth / 2;
+			const cameraY = canvas.clientHeight / 2;
+			const cameraZ = canvas.clientHeight/2 / Math.tan(camera.fov/2 / 180 * Math.PI) + 3 * radius;
+			camera.position.set(cameraX, cameraY, cameraZ);
+			camera.lookAt(cameraX, cameraY, 0);
 
-			updatePlaneMesh(planeMesh, canvas.clientWidth, canvas.clientHeight);
+			pointLight.position.setX(cameraX);
+			pointLight.position.setY(cameraY);
+
+			updatePlaneMesh(planeMesh, canvas.clientWidth, canvas.clientHeight, cameraX, cameraY);
+			updateBdMeshes(bdMeshes, canvas.clientWidth, canvas.clientHeight, radius);
 		}
 
 		renderer.render(scene, camera);
@@ -157,11 +166,13 @@ function createPlaneMesh(params) {
 	return mesh;
 }
 
-function updatePlaneMesh(mesh, width, height) {
+function updatePlaneMesh(mesh, width, height, x, y) {
 	mesh.geometry = new THREE.PlaneGeometry(width, height);
 	const texture = mesh.material.map;
 	texture.repeat.set(width / 20, height / 20);
 	mesh.material.map = texture;
+	mesh.position.setX(x);
+	mesh.position.setY(y);
 }
 
 function createBdMeshes(radius, canvas) {
@@ -188,6 +199,20 @@ function createBdMeshes(radius, canvas) {
 		bottom: bottomBdMesh,
 		top: topBdMesh,
 	};
+}
+
+function updateBdMeshes(meshes, width, height, radius) {
+	[meshes.left, meshes.right].forEach(m =>
+		m.geometry = new THREE.BoxGeometry(2 * radius, height - 2 * radius, 2 * radius)
+	);
+	[meshes.top, meshes.bottom].forEach(m =>
+		m.geometry = new THREE.BoxGeometry(width - 2 * radius, 2 * radius, 2 * radius)
+	);
+
+	meshes.left.position.set(radius, height / 2 - radius, 0);
+	meshes.right.position.set(width - radius, height / 2 + radius, 0);
+	meshes.bottom.position.set(width / 2 + radius, radius, 0);
+	meshes.top.position.set(width / 2 - radius, height - radius, 0);
 }
 
 function resizeRendererToDisplaySize(renderer) {
