@@ -28,6 +28,7 @@ function fullscreen() {
 	}
 
 	this.debug = !this.debug;
+	console.log(`debug is now ${this.debug}`);
 }
 
 function handleOrientation(event) {
