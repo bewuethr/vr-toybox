@@ -87,22 +87,22 @@ function updateModel(dt) {
 	if (x < r) {
 		x = r;
 		scene.point.v.x *= -dampingFactor;
-		scene.point.v.y *= -dampingFactor;
+		scene.point.v.y *= dampingFactor;
 	}
 	if (x > innerWidth - r) {
 		x = innerWidth - r;
 		scene.point.v.x *= -dampingFactor;
-		scene.point.v.y *= -dampingFactor;
+		scene.point.v.y *= dampingFactor;
 	}
 	if (y < r) {
 		y = r;
 		scene.point.v.y *= -dampingFactor;
-		scene.point.v.x *= -dampingFactor;
+		scene.point.v.x *= dampingFactor;
 	}
 	if (y > innerHeight - r) {
 		y = innerHeight - r;
 		scene.point.v.y *= -dampingFactor;
-		scene.point.v.x *= -dampingFactor;
+		scene.point.v.x *= dampingFactor;
 	}
 
 	scene.point.set(x, y);
