@@ -9,6 +9,7 @@ export default {
 				two: resolve(__dirname, "2d.html"),
 				twoPointFive: resolve(__dirname, "2_5d.html"),
 			},
+			treeshake: false,
 		},
 	},
 };
