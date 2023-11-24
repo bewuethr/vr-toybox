@@ -11,7 +11,8 @@ function main() {
 	const renderer = new THREE.WebGLRenderer({antialias: true, canvas});
 	// const gui = new GUI();
 
-	const radius = 15;
+	const radius = 100;
+	const wallWidth = 15;
 
 	const camera = createCamera(canvas, radius);
 	const scene = new THREE.Scene();
@@ -38,10 +39,10 @@ function main() {
 	});
 	scene.add(planeMesh);
 
-	const bdMeshes = createBdMeshes(radius, canvas);
+	const bdMeshes = createBdMeshes(wallWidth, radius, canvas);
 	scene.add(...Object.values(bdMeshes));
 
-	const sceneModel = new SceneModel(sphereMesh.position.x, sphereMesh.position.y, radius);
+	const sceneModel = new SceneModel(sphereMesh.position.x, sphereMesh.position.y, radius, wallWidth);
 	let tPrev;
 	addEventListener("deviceorientation", handleOrientation.bind(sceneModel));
 
@@ -76,7 +77,7 @@ function main() {
 			pointLight.position.setY(cameraY);
 
 			updatePlaneMesh(planeMesh, canvas.clientWidth, canvas.clientHeight, cameraX, cameraY);
-			updateBdMeshes(bdMeshes, canvas.clientWidth, canvas.clientHeight, radius);
+			updateBdMeshes(bdMeshes, canvas.clientWidth, canvas.clientHeight, wallWidth, radius);
 		}
 
 		renderer.render(scene, camera);
@@ -175,11 +176,11 @@ function updatePlaneMesh(mesh, width, height, x, y) {
 	mesh.position.setY(y);
 }
 
-function createBdMeshes(radius, canvas) {
+function createBdMeshes(wallWidth, radius, canvas) {
 	const vertBdGeometry = 
-		new THREE.BoxGeometry(2 * radius, canvas.clientHeight - 2 * radius, 2 * radius);
+		new THREE.BoxGeometry(2 * wallWidth, canvas.clientHeight - 2 * wallWidth, 2 * radius);
 	const horzBdGeometry =
-		new THREE.BoxGeometry(canvas.clientWidth - 2 * radius, 2 * radius, 2 * radius);
+		new THREE.BoxGeometry(canvas.clientWidth - 2 * wallWidth, 2 * wallWidth, 2 * radius);
 
 	const bdMaterial = new THREE.MeshNormalMaterial();
 
@@ -188,10 +189,10 @@ function createBdMeshes(radius, canvas) {
 	const bottomBdMesh = new THREE.Mesh(horzBdGeometry, bdMaterial);
 	const topBdMesh = new THREE.Mesh(horzBdGeometry, bdMaterial);
 
-	leftBdMesh.position.set(radius, canvas.clientHeight / 2 - radius, 0);
-	rightBdMesh.position.set(canvas.clientWidth - radius, canvas.clientHeight / 2 + radius, 0);
-	bottomBdMesh.position.set(canvas.clientWidth / 2 + radius, radius, 0);
-	topBdMesh.position.set(canvas.clientWidth / 2 - radius, canvas.clientHeight - radius, 0);
+	leftBdMesh.position.set(wallWidth, canvas.clientHeight / 2 - wallWidth, 0);
+	rightBdMesh.position.set(canvas.clientWidth - wallWidth, canvas.clientHeight / 2 + wallWidth, 0);
+	bottomBdMesh.position.set(canvas.clientWidth / 2 + wallWidth, wallWidth, 0);
+	topBdMesh.position.set(canvas.clientWidth / 2 - wallWidth, canvas.clientHeight - wallWidth, 0);
 
 	return {
 		left: leftBdMesh,
@@ -201,18 +202,18 @@ function createBdMeshes(radius, canvas) {
 	};
 }
 
-function updateBdMeshes(meshes, width, height, radius) {
+function updateBdMeshes(meshes, width, height, wallWidth, radius) {
 	[meshes.left, meshes.right].forEach(m =>
-		m.geometry = new THREE.BoxGeometry(2 * radius, height - 2 * radius, 2 * radius)
+		m.geometry = new THREE.BoxGeometry(2 * wallWidth, height - 2 * wallWidth, 2 * radius)
 	);
 	[meshes.top, meshes.bottom].forEach(m =>
-		m.geometry = new THREE.BoxGeometry(width - 2 * radius, 2 * radius, 2 * radius)
+		m.geometry = new THREE.BoxGeometry(width - 2 * wallWidth, 2 * wallWidth, 2 * radius)
 	);
 
-	meshes.left.position.set(radius, height / 2 - radius, 0);
-	meshes.right.position.set(width - radius, height / 2 + radius, 0);
-	meshes.bottom.position.set(width / 2 + radius, radius, 0);
-	meshes.top.position.set(width / 2 - radius, height - radius, 0);
+	meshes.left.position.set(wallWidth, height / 2 - wallWidth, 0);
+	meshes.right.position.set(width - wallWidth, height / 2 + wallWidth, 0);
+	meshes.bottom.position.set(width / 2 + wallWidth, wallWidth, 0);
+	meshes.top.position.set(width / 2 - wallWidth, height - wallWidth, 0);
 }
 
 function resizeRendererToDisplaySize(renderer) {

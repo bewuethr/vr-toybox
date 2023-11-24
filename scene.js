@@ -3,14 +3,16 @@ import { Point } from "./point.js";
 class Scene {
 	point;
 	orientation;
+	wallWidth;
 
-	constructor(x, y, r) {
+	constructor(x, y, r, w) {
 		this.point = new Point(x, y, r);
 		this.orientation = {
 			alpha: 0,
 			beta: 0,
 			gamma: 0,
 		};
+		this.wallWidth = w;
 	}
 
 	update(dt) {
@@ -26,23 +28,23 @@ class Scene {
 
 		// Handle collision with boundary
 		let {x, y} = this.point.p;
-		if (x < 3 * this.point.r) {
-			x = 3 * this.point.r;
+		if (x < this.point.r + this.wallWidth) {
+			x = this.point.r + this.wallWidth;
 			this.point.v.x *= -dampingFactor;
 			this.point.v.y *= dampingFactor;
 		}
-		if (x > innerWidth - 3 * this.point.r) {
-			x = innerWidth - 3 * this.point.r;
+		if (x > innerWidth - this.point.r - this.wallWidth) {
+			x = innerWidth - this.point.r - this.wallWidth;
 			this.point.v.x *= -dampingFactor;
 			this.point.v.y *= dampingFactor;
 		}
-		if (y < 3 * this.point.r) {
-			y = 3 * this.point.r;
+		if (y < this.point.r + this.wallWidth) {
+			y = this.point.r + this.wallWidth;
 			this.point.v.y *= -dampingFactor;
 			this.point.v.x *= dampingFactor;
 		}
-		if (y > innerHeight - 3 * this.point.r) {
-			y = innerHeight - 3 * this.point.r;
+		if (y > innerHeight - this.point.r - this.wallWidth) {
+			y = innerHeight - this.point.r - this.wallWidth;
 			this.point.v.y *= -dampingFactor;
 			this.point.v.x *= dampingFactor;
 		}
