@@ -115,7 +115,7 @@ function createPointLight(x, y, z) {
 
 function createDirectionalLight(position, target) {
 	const color = 0xffffff;
-	const intensity = 0.1;
+	const intensity = 0.2;
 	const light = new THREE.DirectionalLight(color, intensity);
 	light.position.copy(position);
 	light.target.position.copy(target);
