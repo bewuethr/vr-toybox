@@ -105,7 +105,7 @@ function createDebugString(sceneModel, dt) {
 
 function createPointLight(x, y, z) {
 	const color = 0xffffff;
-	const intensity = 350;
+	const intensity = 500;
 	const light = new THREE.PointLight(color, intensity);
 
 	light.position.set(x, y, z);
@@ -115,7 +115,7 @@ function createPointLight(x, y, z) {
 
 function createDirectionalLight(position, target) {
 	const color = 0xffffff;
-	const intensity = 0.05;
+	const intensity = 0.1;
 	const light = new THREE.DirectionalLight(color, intensity);
 	light.position.copy(position);
 	light.target.position.copy(target);
@@ -140,7 +140,7 @@ function createCamera(canvas, radius, fov = 45)  {
 function createSphereMesh(radius, x, y) {
 	const segments = 100;
 	const geometry = new THREE.SphereGeometry(radius, segments, segments);
-	const material = new THREE.MeshPhongMaterial({emissive: 0xeec61f});
+	const material = new THREE.MeshPhongMaterial({color: 0xeec61f, specular: 0x111111, shininess: 30});
 	const mesh = new THREE.Mesh(geometry, material);
 
 	mesh.position.set(x, y, 0);
