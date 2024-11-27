@@ -19,7 +19,7 @@
     "eslint": "^9.15.0",
     "globals": "^15.12.0",
     "prettier": "3.4.1",
-    "vite": "^6.0.0"
+    "vite": "^6.0.1"
   },
   "dependencies": {
     "three": "^0.170.0"
