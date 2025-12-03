@@ -18,7 +18,7 @@
     "@eslint/js": "^9.39.0",
     "eslint": "^9.39.1",
     "globals": "^16.5.0",
-    "prettier": "3.7.3",
+    "prettier": "3.7.4",
     "vite": "^7.2.6"
   },
   "dependencies": {
